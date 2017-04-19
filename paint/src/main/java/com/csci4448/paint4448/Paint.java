@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 public class Paint {
 
     private static Paint paint = null;
+    private JFrame window;
 
     private Paint() {
         setupGUI();
@@ -21,19 +22,19 @@ public class Paint {
     }
 
     private void setupGUI() {
-        JFrame frame = new JFrame("Paint Title");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window = new JFrame("Paint");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel contentPane = new JPanel(new BorderLayout());
 
         JLabel label = new JLabel("Hello Paint");
         contentPane.add(label);
 
-        setupMenuBar(frame);
+        setupMenuBar(window);
 
-        frame.setContentPane(contentPane);
-        frame.pack();
-        frame.setVisible(true);
+        window.setContentPane(contentPane);
+        window.pack();
+        window.setVisible(true);
     }
 
     private void setupMenuBar(JFrame frame) {
