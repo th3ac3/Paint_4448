@@ -5,11 +5,16 @@ import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
+import com.csci4448.paint4448.dialogs.OpenDialog;
+import org.apache.batik.swing.JSVGCanvas;
+
 // Paint is a singleton
 public class Paint {
 
     private static Paint paint = null;
     private JFrame window;
+    private Canvas canvas;
+    private JSVGCanvas jsvgCanvas;
 
     private Paint() {
         setupGUI();
@@ -26,13 +31,14 @@ public class Paint {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel contentPane = new JPanel(new BorderLayout());
-
-        JLabel label = new JLabel("Hello Paint");
-        contentPane.add(label);
+        contentPane.setBackground(Color.YELLOW);
+        window.setContentPane(contentPane);
 
         setupMenuBar(window);
+        setupToolOptionsBar();
+        setupSideBar();
+        setupCanvas();
 
-        window.setContentPane(contentPane);
         window.pack();
         window.setVisible(true);
     }
@@ -53,6 +59,9 @@ public class Paint {
         JMenuItem itemLoad = new JMenuItem("Open Image");
         itemLoad.setMnemonic(KeyEvent.VK_O);
         itemLoad.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        itemLoad.addActionListener(ae -> {
+            OpenDialog openDialog = new OpenDialog(window, jsvgCanvas);
+        });
         menuFile.add(itemLoad);
 
         // Edit menu
@@ -76,6 +85,47 @@ public class Paint {
         subMenuCanvas.add(itemRotate);
 
         frame.setJMenuBar(menuBar);
+    }
+
+    private void setupToolOptionsBar() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel brushSizeLabel = new JLabel("Brush Size:");
+        panel.add(brushSizeLabel);
+
+        SpinnerModel model = new SpinnerNumberModel(
+                12, // Default
+                1, // Min
+                300, // Max
+                1 // Step
+        );
+        JSpinner spinner = new JSpinner(model);
+        spinner.setAlignmentX(JSpinner.LEFT_ALIGNMENT);
+        panel.add(spinner);
+
+        JLabel pxLabel = new JLabel("px");
+        panel.add(pxLabel);
+
+        window.add(panel, BorderLayout.NORTH);
+    }
+
+    private void setupSideBar() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel("Side Bar");
+        panel.add(label);
+        panel.setBackground(Color.GREEN);
+
+        window.add(panel, BorderLayout.WEST);
+    }
+
+    private void setupCanvas() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        //canvas = new Canvas(250, 250);
+        //panel.add(canvas);
+        jsvgCanvas = new JSVGCanvas();
+        panel.add(jsvgCanvas);
+
+        window.add(panel);
     }
 
     public static void main(String[] args) {
