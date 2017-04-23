@@ -1,18 +1,51 @@
 package com.csci4448.paint4448.shapes;
 
-import com.csci4448.paint4448.Canvas;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.awt.*;
 
 public class Rectangle extends Shape {
-    public float width;
-    public float height;
+    public int width;
+    public int height;
     public Point startPoint;
 
-    @Override
-    public String toXML() { return null; }
+    public Rectangle() {
+        startPoint = new Point();
+        width = 10;
+        height = 10;
+    }
 
     @Override
-    public void draw(Canvas canvas) { }
+    public String toXML() {
+        Document doc = getDocument();
+
+        Element rect = doc.createElement("rect");
+
+        rect.setAttribute("x", startPoint.x + "");
+        rect.setAttribute("y", startPoint.y + "");
+
+        rect.setAttribute("width", width + "");
+        rect.setAttribute("height",height + "");
+
+        rect.setAttribute("style", style.toString());
+
+        doc.appendChild(rect);
+
+        return docToString(doc);
+    }
 
     @Override
-    public void undraw(Canvas canvas) { }
+    public void draw(Graphics g) {
+        if (style.fill != null)
+            g.setColor(style.getColor(style.fill));
+        else
+            g.setColor(Color.BLACK);
+
+        g.fillRect(startPoint.x, startPoint.y,
+                startPoint.x + width, startPoint.y + height);
+    }
+
+    @Override
+    public void undraw(Graphics g) { }
 }
