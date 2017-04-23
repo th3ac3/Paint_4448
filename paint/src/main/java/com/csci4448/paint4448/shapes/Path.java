@@ -1,6 +1,6 @@
 package com.csci4448.paint4448.shapes;
 
-import com.csci4448.paint4448.Canvas;
+import java.awt.*;
 
 public class Path extends Shape {
     public Point startPoint;
@@ -10,8 +10,8 @@ public class Path extends Shape {
     public String toXML() { return null; }
 
     @Override
-    public void draw(Canvas canvas) { }
+    public void draw(Graphics g) { }
 
     @Override
-    public void undraw(Canvas canvas) { }
+    public void undraw(Graphics g) { }
 }

@@ -1,8 +1,8 @@
 package com.csci4448.paint4448.shapes;
 
-import com.csci4448.paint4448.Canvas;
+import java.awt.*;
 
 public interface Drawable {
-    void draw(Canvas canvas);
-    void undraw(Canvas canvas);
+    void draw(Graphics g);
+    void undraw(Graphics g);
 }
