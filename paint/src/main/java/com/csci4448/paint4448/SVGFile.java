@@ -8,22 +8,20 @@ public class SVGFile {
     File file;
     String xmlVersion;
     String xmlEncoding;
+    String data;
 
-    public SVGFile(String filePath) {
-        file = new File(filePath);
+    public SVGFile(File file) {
+        this.file = file;
     }
 
-    void save(String data){
+    public void save(){
         try (PrintWriter out = new PrintWriter(file)) {
             out.print(data);
         } catch (FileNotFoundException e) {
-            // TODO handle file not found
             e.printStackTrace();
         }
-
     }
 
-    void load(){
-
+    public void load(){
     }
 }
