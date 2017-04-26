@@ -6,7 +6,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import com.csci4448.paint4448.dialogs.OpenDialog;
-import org.apache.batik.swing.JSVGCanvas;
+import com.csci4448.paint4448.dialogs.SaveDialog;
 
 // Paint is a singleton
 public class Paint {
@@ -14,7 +14,6 @@ public class Paint {
     private static Paint paint = null;
     private JFrame window;
     private Canvas canvas;
-    private JSVGCanvas jsvgCanvas;
 
     private Paint() {
         setupGUI();
@@ -54,13 +53,16 @@ public class Paint {
         JMenuItem itemSave = new JMenuItem("Save Image");
         itemSave.setMnemonic(KeyEvent.VK_S);
         itemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        itemSave.addActionListener(ae -> {
+            new SaveDialog(window, canvas);
+        });
         menuFile.add(itemSave);
 
         JMenuItem itemLoad = new JMenuItem("Open Image");
         itemLoad.setMnemonic(KeyEvent.VK_O);
         itemLoad.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         itemLoad.addActionListener(ae -> {
-            OpenDialog openDialog = new OpenDialog(window, jsvgCanvas);
+            new OpenDialog(window, canvas);
         });
         menuFile.add(itemLoad);
 
@@ -120,10 +122,7 @@ public class Paint {
 
     private void setupCanvas() {
         JPanel panel = new JPanel(new GridBagLayout());
-        //canvas = new Canvas(250, 250);
-        //panel.add(canvas);
-        jsvgCanvas = new JSVGCanvas();
-        panel.add(jsvgCanvas);
+        canvas = new Canvas(panel, 500, 500);
 
         window.add(panel);
     }
