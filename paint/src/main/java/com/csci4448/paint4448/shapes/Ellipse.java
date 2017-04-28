@@ -22,7 +22,7 @@ public class Ellipse extends Shape {
         rect.setAttribute("rx", rx + "");
         rect.setAttribute("ry",ry + "");
 
-        rect.setAttribute("style", style.toString());
+        setGlobalAttributes(doc);
 
         doc.appendChild(rect);
 

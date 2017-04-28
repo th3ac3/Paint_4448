@@ -17,9 +17,11 @@ import java.io.StringWriter;
 public class Shape implements Drawable, XML {
     public String id;
     public Style style;
+    public Transform transform;
 
     public Shape() {
         style = new Style();
+        transform = new Transform();
     }
 
     public void rotate(float angle) {}
@@ -60,5 +62,10 @@ public class Shape implements Drawable, XML {
         } catch (TransformerException e) {
             throw new RuntimeException("Error converting to string", e);
         }
+    }
+
+    protected void setGlobalAttributes(Document doc) {
+        doc.createAttributeNS("style", style.toString());
+        doc.createAttributeNS("transform", transform.toString());
     }
 }

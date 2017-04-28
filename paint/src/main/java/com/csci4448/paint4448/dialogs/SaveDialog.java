@@ -1,7 +1,6 @@
 package com.csci4448.paint4448.dialogs;
 
 import com.csci4448.paint4448.Canvas;
-import com.csci4448.paint4448.SVGFile;
 
 import javax.swing.*;
 import java.io.File;

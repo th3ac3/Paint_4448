@@ -28,7 +28,7 @@ public class Rectangle extends Shape {
         rect.setAttribute("width", width + "");
         rect.setAttribute("height",height + "");
 
-        rect.setAttribute("style", style.toString());
+        setGlobalAttributes(doc);
 
         doc.appendChild(rect);
 

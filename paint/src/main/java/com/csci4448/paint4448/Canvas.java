@@ -2,6 +2,7 @@ package com.csci4448.paint4448;
 
 import com.csci4448.paint4448.shapes.Rectangle;
 import com.csci4448.paint4448.shapes.Shape;
+import com.csci4448.paint4448.shapes.Transform;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.util.XMLResourceDescriptor;
@@ -16,17 +17,19 @@ import java.util.ArrayList;
 
 public class Canvas {
     private static final String SVG_HEADER = "<svg xmlns=\"http://www.w3.org/2000/svg\" " +
-            "xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"%s\" height=\"%s\">\n";
+            "xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"%s\" height=\"%s\" transform=\"%s\">\n";
     private static final String SVG_FOOTER = "</svg>";
     private ArrayList<Shape> shapes;
     private String svgData;
     private JSVGCanvas jsvgCanvas;
     private int width;
     private int height;
+    private Transform transform;
 
     Canvas(JPanel panel, int width, int height) {
         this.width = width;
         this.height = height;
+        transform = new Transform();
 
         shapes = new ArrayList<>();
 
@@ -56,7 +59,7 @@ public class Canvas {
     }
 
     private String getSvgHeader() {
-        return String.format(SVG_HEADER, width, height);
+        return String.format(SVG_HEADER, width, height, transform);
     }
 
     public void open(File file) {
@@ -74,11 +77,29 @@ public class Canvas {
 
     }
 
-    public void rotate(float angle){}
+    public void rotate(int angle){
+        angle %= 360;
+
+        if (angle != 0 && angle != 90 && angle != 180 && angle != 270) return;
+        if (angle == 0) return;
+
+        // Need to swap width and height if rotating 90 or 270
+        if (angle == 90 || angle == 270) {
+            int temp = width;
+            width = height;
+            height = temp;
+        }
+
+        transform.rotate = angle + " " + width / 2 + " " + height / 2;
+
+        draw();
+    }
+
     public void resizeCanvas(int newWidth, int newHeight){
         width = newWidth;
         height = newHeight;
         draw();
     }
+
     public void crop(int x1, int y1, int x2, int y2){}
 }

@@ -6,6 +6,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import com.csci4448.paint4448.dialogs.OpenDialog;
+import com.csci4448.paint4448.dialogs.RotateDialog;
 import com.csci4448.paint4448.dialogs.SaveDialog;
 
 // Paint is a singleton
@@ -84,6 +85,9 @@ public class Paint {
         JMenuItem itemRotate = new JMenuItem("Rotate");
         itemRotate.setMnemonic(KeyEvent.VK_R);
         itemRotate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
+        itemRotate.addActionListener(ae -> {
+            new RotateDialog(window, canvas);
+        });
         subMenuCanvas.add(itemRotate);
 
         frame.setJMenuBar(menuBar);
