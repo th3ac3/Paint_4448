@@ -19,7 +19,12 @@ public class Ellipse extends Shape {
 
     public Ellipse(Element elem) {
         super(elem);
-        setStartPoint(new Point(elem));
+        setStartPoint(new Point());
+
+        if (!elem.getAttribute("cx").equals(""))
+            startPoint.setX(Integer.parseInt(elem.getAttribute("cx")));
+        if (!elem.getAttribute("cy").equals(""))
+            startPoint.setY(Integer.parseInt(elem.getAttribute("cy")));
 
         if (!elem.getAttribute("rx").equals(""))
             setRx(Integer.parseInt(elem.getAttribute("rx")));

@@ -16,6 +16,7 @@ public class Style {
     public Style(){}
 
     public Style(String parseString) {
+        parseString = parseString.replaceAll("\\s", "");
         String[] styles = parseString.split(";");
 
         for (String string : styles) {
