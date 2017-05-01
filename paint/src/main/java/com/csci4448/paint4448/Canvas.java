@@ -3,8 +3,11 @@ package com.csci4448.paint4448;
 import com.csci4448.paint4448.shapes.Ellipse;
 import com.csci4448.paint4448.shapes.Rectangle;
 import com.csci4448.paint4448.shapes.Shape;
+import com.csci4448.paint4448.tools.Tool;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.apache.batik.swing.JSVGCanvas;
+import org.apache.batik.swing.svg.AbstractJSVGComponent;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,9 +25,11 @@ public class Canvas {
     private static final String SVG_FOOTER = "</svg>";
     private SVGFile svgFile;
     private JSVGCanvas jsvgCanvas;
+    private JPanel mPanel;
     private ArrayList<Shape> shapes;
     private int width;
     private int height;
+    private Tool currentTool = null;
 
     Canvas(JPanel panel, int width, int height) {
         this.width = width;
@@ -35,6 +40,7 @@ public class Canvas {
         jsvgCanvas = new JSVGCanvas();
         draw();
         panel.add(jsvgCanvas);
+        mPanel = panel;
     }
 
     public void draw() {
@@ -45,13 +51,26 @@ public class Canvas {
         try {
             SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(
                     XMLResourceDescriptor.getXMLParserClassName());
-            SVGDocument document = factory.createSVGDocument("",
+            SVGDocument document = factory.createSVGDocument(SVGDOMImplementation.SVG_NAMESPACE_URI,
                     new ByteArrayInputStream(svgData.getBytes("UTF-8")));
 
+            jsvgCanvas.setDocumentState(AbstractJSVGComponent.ALWAYS_DYNAMIC);
             jsvgCanvas.setSVGDocument(document);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setTool(Tool tool)
+    {
+        if(currentTool != null)
+        {
+            jsvgCanvas.getInteractors().remove(currentTool);
+        }
+        currentTool = tool;
+        tool.setCanvas(jsvgCanvas);
+        tool.setShapesContainer(shapes);
+        jsvgCanvas.getInteractors().add(tool);
     }
 
     private String getSvg() {
@@ -144,6 +163,8 @@ public class Canvas {
     public void crop(int x1, int y1, int x2, int y2){}
 
     public void setShapes(ArrayList<Shape> shapes) {
+        if(this.currentTool!=null)
+            currentTool.setShapesContainer(shapes);
         this.shapes = shapes;
     }
 }

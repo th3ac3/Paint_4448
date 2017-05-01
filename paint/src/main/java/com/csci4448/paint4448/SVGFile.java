@@ -1,9 +1,6 @@
 package com.csci4448.paint4448;
 
-import com.csci4448.paint4448.shapes.Ellipse;
-import com.csci4448.paint4448.shapes.Rectangle;
-import com.csci4448.paint4448.shapes.Shape;
-import com.csci4448.paint4448.shapes.Transform;
+import com.csci4448.paint4448.shapes.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -58,6 +55,9 @@ public class SVGFile {
                         break;
                     case "ellipse":
                         shapes.add(new Ellipse(shape));
+                        break;
+                    case "path":
+                        shapes.add(new Path(shape));
                         break;
                 }
             }

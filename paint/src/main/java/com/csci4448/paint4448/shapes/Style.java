@@ -15,6 +15,17 @@ public class Style {
 
     public Style(){}
 
+    public Style(Style style)
+    {
+        fill = style.fill;
+        fillRule = style.fillRule;
+        stroke = style.stroke;
+        strokeWidth = style.strokeWidth;
+        strokeLineCap = style.strokeLineCap;
+        strokeLineJoin = style.strokeLineJoin;
+        strokeOpacity = style.strokeOpacity;
+    }
+
     public Style(String parseString) {
         parseString = parseString.replaceAll("\\s", "");
         String[] styles = parseString.split(";");
@@ -22,7 +33,8 @@ public class Style {
         for (String string : styles) {
             String style = string.substring(0, string.indexOf(":"));
             String value = string.substring(string.indexOf(":") + 1);
-
+            style = style.trim();
+            value = value.trim();
             switch (style) {
                 case "fill":
                     setFill(value);
