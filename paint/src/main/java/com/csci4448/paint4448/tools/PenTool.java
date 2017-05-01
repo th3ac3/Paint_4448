@@ -75,7 +75,6 @@ public class PenTool extends Tool {
         if(interactionComplete == false && e.getButton() == MouseEvent.BUTTON3)
         {
             interactionComplete = true;
-            editPath.setAttributeNS(null,"stroke", "black");
             editPath.setAttributeNS(null,"d", printPathCommands());
             outputShape.setPathCommands(new ArrayList<>(pathCommands));
             outputShape.setStyle(new Style(currentStyle));
