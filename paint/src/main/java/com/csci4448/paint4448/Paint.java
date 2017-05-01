@@ -8,10 +8,12 @@ import java.awt.event.KeyEvent;
 import com.csci4448.paint4448.dialogs.OpenDialog;
 import com.csci4448.paint4448.dialogs.RotateDialog;
 import com.csci4448.paint4448.dialogs.SaveDialog;
+import com.csci4448.paint4448.shapes.Style;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import com.csci4448.paint4448.tools.*;
 
 // Paint is a singleton
 public class Paint {
@@ -23,7 +25,7 @@ public class Paint {
 
     private Paint() {
         setupGUI();
-        setupDB();
+        //setupDB();
     }
 
     public static Paint getInstance() {
@@ -143,8 +145,15 @@ public class Paint {
 
     private void setupCanvas() {
         JPanel panel = new JPanel(new GridBagLayout());
-        canvas = new Canvas(panel, 500, 500);
+        canvas = new Canvas(panel, 1000, 1000);
 
+        Tool blah = new PenTool();
+        Style style = new Style();
+        style.setFill("none");
+        style.setStroke("black");
+        style.setStrokeWidth("3");
+        blah.setStyle(style);
+        canvas.setTool(blah);
         window.add(panel);
     }
 

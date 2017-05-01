@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 
 @Entity
 public class Rectangle extends Shape {
-    private int width;
-    private int height;
+    private double width;
+    private double height;
     private Point startPoint;
 
     public Rectangle() {
@@ -22,9 +22,9 @@ public class Rectangle extends Shape {
         setStartPoint(new Point(elem));
 
         if (!elem.getAttribute("width").equals(""))
-            setWidth(Integer.parseInt(elem.getAttribute("width")));
+            setWidth(Double.parseDouble(elem.getAttribute("width")));
         if (!elem.getAttribute("height").equals(""))
-            setHeight(Integer.parseInt(elem.getAttribute("height")));
+            setHeight(Double.parseDouble(elem.getAttribute("height")));
     }
 
     @Override
@@ -46,17 +46,17 @@ public class Rectangle extends Shape {
         return docToString(doc);
     }
 
-    public int getWidth() {
+    public double getWidth() {
         return width;
     }
-    public void setWidth(int width) {
+    public void setWidth(double width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 

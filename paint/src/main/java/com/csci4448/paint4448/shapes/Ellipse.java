@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 
 @Entity
 public class Ellipse extends Shape {
-    private int rx;
-    private int ry;
+    private float rx;
+    private float ry;
     private Point startPoint;
 
     public Ellipse() {
@@ -19,12 +19,17 @@ public class Ellipse extends Shape {
 
     public Ellipse(Element elem) {
         super(elem);
-        setStartPoint(new Point(elem));
+        setStartPoint(new Point());
 
         if (!elem.getAttribute("rx").equals(""))
-            setRx(Integer.parseInt(elem.getAttribute("rx")));
+            setRx(Float.parseFloat(elem.getAttribute("rx")));
         if (!elem.getAttribute("ry").equals(""))
-            setRy(Integer.parseInt(elem.getAttribute("ry")));
+            setRy(Float.parseFloat(elem.getAttribute("ry")));
+
+        if (!elem.getAttribute("cx").equals(""))
+            startPoint.setX(Float.parseFloat(elem.getAttribute("cx")));
+        if (!elem.getAttribute("cy").equals(""))
+            startPoint.setY(Float.parseFloat(elem.getAttribute("cy")));
     }
 
     @Override
@@ -46,17 +51,17 @@ public class Ellipse extends Shape {
         return docToString(doc);
     }
 
-    public int getRx() {
+    public float getRx() {
         return rx;
     }
-    public void setRx(int rx) {
+    public void setRx(float rx) {
         this.rx = rx;
     }
 
-    public int getRy() {
+    public float getRy() {
         return ry;
     }
-    public void setRy(int ry) {
+    public void setRy(float ry) {
         this.ry = ry;
     }
 
