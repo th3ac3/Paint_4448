@@ -25,6 +25,7 @@ public class Canvas {
     private static final String SVG_FOOTER = "</svg>";
     private SVGFile svgFile;
     private JSVGCanvas jsvgCanvas;
+    private JPanel mPanel;
     private ArrayList<Shape> shapes;
     private int width;
     private int height;
@@ -39,6 +40,7 @@ public class Canvas {
         jsvgCanvas = new JSVGCanvas();
         draw();
         panel.add(jsvgCanvas);
+        mPanel = panel;
     }
 
     public void draw() {

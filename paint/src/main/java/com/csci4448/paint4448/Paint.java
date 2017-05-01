@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import com.csci4448.paint4448.dialogs.OpenDialog;
+import com.csci4448.paint4448.dialogs.ResizeDialog;
 import com.csci4448.paint4448.dialogs.RotateDialog;
 import com.csci4448.paint4448.dialogs.SaveDialog;
 import com.csci4448.paint4448.shapes.Style;
@@ -106,6 +107,9 @@ public class Paint implements ActionListener, ChangeListener {
         JMenuItem itemResize = new JMenuItem("Resize");
         itemResize.setMnemonic(KeyEvent.VK_I);
         itemResize.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_MASK));
+        itemResize.addActionListener(ae -> {
+            new ResizeDialog(window, canvas);
+        });
         subMenuCanvas.add(itemResize);
 
         JMenuItem itemRotate = new JMenuItem("Rotate");
@@ -175,7 +179,7 @@ public class Paint implements ActionListener, ChangeListener {
 
     private void setupCanvas() {
         JPanel panel = new JPanel(new GridBagLayout());
-        canvas = new Canvas(panel, 1000, 1000);
+        canvas = new Canvas(panel, 100, 100);
 
         Tool blah = new PenTool();
         currentStyle = new Style();
