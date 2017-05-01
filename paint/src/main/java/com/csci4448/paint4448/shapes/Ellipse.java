@@ -3,12 +3,29 @@ package com.csci4448.paint4448.shapes;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.awt.*;
+import javax.persistence.Entity;
 
+@Entity
 public class Ellipse extends Shape {
-    public float rx;
-    public float ry;
-    public Point startPoint;
+    private int rx;
+    private int ry;
+    private Point startPoint;
+
+    public Ellipse() {
+        setRx(10);
+        setRy(10);
+        setStartPoint(new Point());
+    }
+
+    public Ellipse(Element elem) {
+        super(elem);
+        setStartPoint(new Point(elem));
+
+        if (!elem.getAttribute("rx").equals(""))
+            setRx(Integer.parseInt(elem.getAttribute("rx")));
+        if (!elem.getAttribute("ry").equals(""))
+            setRy(Integer.parseInt(elem.getAttribute("ry")));
+    }
 
     @Override
     public String toXML() {
@@ -16,22 +33,37 @@ public class Ellipse extends Shape {
 
         Element rect = doc.createElement("ellipse");
 
-        rect.setAttribute("cx", startPoint.x + "");
-        rect.setAttribute("cy", startPoint.y + "");
+        rect.setAttribute("cx", startPoint.getX() + "");
+        rect.setAttribute("cy", startPoint.getY() + "");
 
-        rect.setAttribute("rx", rx + "");
-        rect.setAttribute("ry",ry + "");
+        rect.setAttribute("rx", getRx() + "");
+        rect.setAttribute("ry",getRy() + "");
 
-        setGlobalAttributes(doc);
+        setGlobalAttributes(rect);
 
         doc.appendChild(rect);
 
         return docToString(doc);
     }
 
-    @Override
-    public void draw(Graphics g) { }
+    public int getRx() {
+        return rx;
+    }
+    public void setRx(int rx) {
+        this.rx = rx;
+    }
 
-    @Override
-    public void undraw(Graphics g) { }
+    public int getRy() {
+        return ry;
+    }
+    public void setRy(int ry) {
+        this.ry = ry;
+    }
+
+    public Point getStartPoint() {
+        return startPoint;
+    }
+    public void setStartPoint(Point startPoint) {
+        this.startPoint = startPoint;
+    }
 }

@@ -33,7 +33,7 @@ public class RotateDialog implements ActionListener {
         buttonCW = new JRadioButton("Clockwise");
         buttonCW.setActionCommand(CW_ACTION);
         buttonCCW = new JRadioButton("Counter clockwise");
-        buttonCW.setActionCommand(CCW_ACTION);
+        buttonCCW.setActionCommand(CCW_ACTION);
 
         directionGroup = new ButtonGroup();
         directionGroup.add(buttonCW);
@@ -42,9 +42,9 @@ public class RotateDialog implements ActionListener {
         button90 = new JRadioButton("90°");
         button90.setActionCommand(D90_ACTION);
         button180 = new JRadioButton("180°");
-        button90.setActionCommand(D180_ACTION);
+        button180.setActionCommand(D180_ACTION);
         button270 = new JRadioButton("270°");
-        button90.setActionCommand(D270_ACTION);
+        button270.setActionCommand(D270_ACTION);
 
         angleGroup = new ButtonGroup();
         angleGroup.add(button90);
@@ -58,8 +58,8 @@ public class RotateDialog implements ActionListener {
         button270.addActionListener(this);
 
         return new JComponent[] {
-                buttonCW, buttonCCW,
-                button90, button180, button270
+            buttonCW, buttonCCW,
+            button90, button180, button270
         };
     }
 

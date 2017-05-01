@@ -1,7 +1,10 @@
 package com.csci4448.paint4448.shapes;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,32 +14,48 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
 import java.io.StringWriter;
 
-public class Shape implements Drawable, XML {
-    public String id;
-    public Style style;
-    public Transform transform;
+@MappedSuperclass
+public class Shape implements XML {
+    @Id
+    private long id;
+    private Style style;
+    private Transform transform;
 
     public Shape() {
-        style = new Style();
-        transform = new Transform();
+        setStyle(new Style());
+        setTransform(new Transform());
     }
 
-    public void rotate(float angle) {}
-    public void fill(String rgbValue) {}
+    public Shape(Element elem) {
+        if (!elem.getAttribute("style").equals(""))
+            setStyle(new Style(elem.getAttribute("style")));
+        else
+            setStyle(new Style());
+
+        if (!elem.getAttribute("transform").equals(""))
+            setTransform(new Transform(elem.getAttribute("transform")));
+        else
+            setTransform(new Transform());
+    }
+
+    public void rotate(int angle) {
+        transform.setRotate(angle + "");
+    }
+
+    public void rotate(int angle, int canvasWidth, int canvasHeight) {
+        transform.setRotate(angle + " " + canvasWidth / 2 + " " + canvasHeight / 2);
+    }
+
+    public void fill(String rgbValue) {
+        style.setFill(rgbValue);
+    }
 
     @Override
     public String toXML() { return null; }
 
-    @Override
-    public void draw(Graphics g) { }
-
-    @Override
-    public void undraw(Graphics g) { }
-
-    protected Document getDocument() {
+    Document getDocument() {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -47,7 +66,7 @@ public class Shape implements Drawable, XML {
     }
 
     // From http://stackoverflow.com/questions/2567416/xml-document-to-string
-    protected static String docToString(Document doc) {
+    static String docToString(Document doc) {
         try {
             StringWriter sw = new StringWriter();
             TransformerFactory tf = TransformerFactory.newInstance();
@@ -64,8 +83,31 @@ public class Shape implements Drawable, XML {
         }
     }
 
-    protected void setGlobalAttributes(Document doc) {
-        doc.createAttributeNS("style", style.toString());
-        doc.createAttributeNS("transform", transform.toString());
+    void setGlobalAttributes(Element elem) {
+        if (!style.toString().equals(""))
+            elem.setAttribute("style", style.toString());
+        if (!transform.toString().equals(""))
+            elem.setAttribute("transform", transform.toString());
+    }
+
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Style getStyle() {
+        return style;
+    }
+    public void setStyle(Style style) {
+        this.style = style;
+    }
+
+    public Transform getTransform() {
+        return transform;
+    }
+    public void setTransform(Transform transform) {
+        this.transform = transform;
     }
 }

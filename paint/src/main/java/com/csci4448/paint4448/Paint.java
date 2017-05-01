@@ -8,6 +8,10 @@ import java.awt.event.KeyEvent;
 import com.csci4448.paint4448.dialogs.OpenDialog;
 import com.csci4448.paint4448.dialogs.RotateDialog;
 import com.csci4448.paint4448.dialogs.SaveDialog;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 // Paint is a singleton
 public class Paint {
@@ -15,15 +19,28 @@ public class Paint {
     private static Paint paint = null;
     private JFrame window;
     private Canvas canvas;
+    private SessionFactory factory;
 
     private Paint() {
         setupGUI();
+        setupDB();
     }
 
     public static Paint getInstance() {
         if (paint == null) paint = new Paint();
 
         return paint;
+    }
+
+    private void setupDB() {
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure("hibernate.cfg.xml")
+                .build();
+        try {
+            factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        } catch (Exception e) {
+            StandardServiceRegistryBuilder.destroy(registry);
+        }
     }
 
     private void setupGUI() {
@@ -129,6 +146,11 @@ public class Paint {
         canvas = new Canvas(panel, 500, 500);
 
         window.add(panel);
+    }
+
+    public SessionFactory getFactory() {
+        if (factory == null) setupDB();
+        return factory;
     }
 
     public static void main(String[] args) {
