@@ -63,7 +63,7 @@ public class Paint implements ActionListener, ChangeListener {
 
         setupMenuBar(window);
         setupToolOptionsBar();
-        setupSideBar();
+        //setupSideBar();
         setupCanvas();
 
         window.pack();
@@ -179,7 +179,7 @@ public class Paint implements ActionListener, ChangeListener {
 
     private void setupCanvas() {
         JPanel panel = new JPanel(new GridBagLayout());
-        canvas = new Canvas(panel, 100, 100);
+        canvas = new Canvas(panel, 500, 500);
 
         Tool blah = new PenTool();
         currentStyle = new Style();
